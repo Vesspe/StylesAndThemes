@@ -2,6 +2,9 @@ package com.example.scorekeeperapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,6 +22,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         firstTeamScore= (TextView) findViewById(R.id.first_team_score);
         secondTeamScore= (TextView) findViewById(R.id.second_team_score);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.night_mode)
+        {
+            //get current night mode state
+            int nightMode = AppCompatDelegate.getDefaultNightMode();
+            //set theme mode
+            if(nightMode == AppCompatDelegate.MODE_NIGHT_YES)
+            {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        recreate();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void decreaseScore(View view) {
