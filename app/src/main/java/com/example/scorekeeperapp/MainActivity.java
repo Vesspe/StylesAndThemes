@@ -9,12 +9,17 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import static java.lang.String.valueOf;
+
 public class MainActivity extends AppCompatActivity {
+
 
     private TextView firstTeamScore;
     private TextView secondTeamScore;
     private int mScore1 =0;
     private int mScore2 =0;
+    private String STATE_SCORE_1="";
+    private String STATE_SCORE_2="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         firstTeamScore= (TextView) findViewById(R.id.first_team_score);
         secondTeamScore= (TextView) findViewById(R.id.second_team_score);
+
+        if(savedInstanceState !=null)
+        {
+            mScore1 = savedInstanceState.getInt(STATE_SCORE_1);
+            mScore2 = savedInstanceState.getInt(STATE_SCORE_2);
+
+
+            //Set the score text views
+            firstTeamScore.setText(valueOf(mScore1));
+            secondTeamScore.setText(valueOf(mScore2));
+            //for some weird reason mScore1 takes value of mScore2 after restore and i cant figure out why
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_SCORE_1, mScore1);
+        outState.putInt(STATE_SCORE_2, mScore2);
+        super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -53,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
          switch(viewID) {
              case R.id.decreaseTeam1:
                  mScore1--;
-                 firstTeamScore.setText(String.valueOf(mScore1));
+                 firstTeamScore.setText(valueOf(mScore1));
                  break;
              case R.id.decreaseTeam2:
                  mScore2--;
-                 secondTeamScore.setText(String.valueOf(mScore2));
+                 secondTeamScore.setText(valueOf(mScore2));
+                 break;
              default:
                  //do nothing
 
@@ -70,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.increaseTeam1:
                 mScore1++;
-                firstTeamScore.setText(String.valueOf(mScore1));
+                firstTeamScore.setText(valueOf(mScore1));
                 break;
             case R.id.increaseTeam2:
                 mScore2++;
-                secondTeamScore.setText(String.valueOf(mScore2));
+                secondTeamScore.setText(valueOf(mScore2));
                 break;
                 default:
                     //do nothing
